@@ -9,12 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExProject {
+    //модель ексель файла
     private XSSFWorkbook book = new XSSFWorkbook();
     XSSFSheet sheetBD = book.createSheet("Базовые данные");
     XSSFSheet sheetEI = book.createSheet("Элементарные расчеты");
+    XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
+    //запись
     FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
+    //шрифты
     XSSFFont font1 = book.createFont();
     XSSFFont font2 = book.createFont();
+    // стили
     XSSFCellStyle cellStyle = book.createCellStyle();
     XSSFCellStyle cellStyle2 = book.createCellStyle();
     XSSFCellStyle cellStyle3 = book.createCellStyle();
@@ -178,9 +183,63 @@ public class ExProject {
             cellD.setCellStyle(cellStyle3);
             cellD.setCellValue(eInformation.get(i).getCandleMinus());
         }
+    }
 
+    public void creatorGipoteza1(ArrayList<Gipoteza1> gipoteza1s){
+        XSSFRow rowSt = sheetG1.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Уникальный размер свечи");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество положительных следующих случаев");
+        cell = rowSt.createCell(2);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество отрицательных следующих случаев");
+        cell = rowSt.createCell(3);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Отношение прошлых двух колонок");
+        cell = rowSt.createCell(4);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество положительных следующих случаев(5)");
+        cell = rowSt.createCell(5);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество отрицательных следующих случаев(5)");
+        cell = rowSt.createCell(6);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Отношение прошлых двух колонок(5)");
+
+        for (int i=0;i<gipoteza1s.size();i++){
+            XSSFRow row = sheetG1.createRow(i+1);
+            XSSFCell cellD1 = row.createCell(0);
+            cellD1.setCellStyle(cellStyle3);
+            cellD1.setCellValue(gipoteza1s.get(i).getUniqueCandleFull());
+            XSSFCell cellD = row.createCell(1);
+            cellD = row.createCell(1);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getPrInc());
+            cellD = row.createCell(2);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getPrDic());
+            cellD = row.createCell(3);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getVsIncDic());
+            cellD = row.createCell(4);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getPrIncF());
+            cellD = row.createCell(5);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getPrDicF());
+            cellD = row.createCell(6);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(gipoteza1s.get(i).getVsIncFDicF());
+        }
+
+    }
+
+    public void  wRite() throws IOException {
         book.write(fileOut);
         fileOut.close();
-
     }
 }

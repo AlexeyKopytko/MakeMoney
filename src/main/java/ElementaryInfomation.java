@@ -17,9 +17,9 @@ public class ElementaryInfomation {
     private Double rounding(Double d){
         double k = d;
         int s1 = (int) k;
-        double s2  = (d-s1)*100;
+        double s2  = (d-s1)*1000;
         int s3 = (int) Math.round(s2);
-        return (double) s3/100+(double) s1;
+        return (double) s3/1000+(double) s1;
     }
 
     public Date getDate() {
@@ -69,14 +69,14 @@ public class ElementaryInfomation {
             e.volumeCH = rounding(((stocks.get(i).getVolume()-stocks.get(i-1).getVolume())/stocks.get(i-1).getVolume()));
             e.candleBody = rounding(((stocks.get(i).getClose()-stocks.get(i).getOpen())/stocks.get(i).getClose()));
             e.candleFull = rounding(((stocks.get(i).getHigh()-stocks.get(i).getLow())/stocks.get(i).getClose()));
-            if(rounding(((stocks.get(i).getClose()-stocks.get(i).getOpen())/stocks.get(i).getClose()))<=0){
+            if(stocks.get(i).getClose()-stocks.get(i).getOpen()<=0){
                 e.candlePlus = rounding(((stocks.get(i).getClose()-stocks.get(i).getLow())/stocks.get(i).getClose()));
             }
             else{
-                e.candleMinus = rounding(((stocks.get(i).getHigh()-stocks.get(i).getOpen())/stocks.get(i).getClose()));
-            }
-            if(rounding(((stocks.get(i).getClose()-stocks.get(i).getOpen())/stocks.get(i).getClose()))>0){
                 e.candlePlus = rounding(((stocks.get(i).getHigh()-stocks.get(i).getClose())/stocks.get(i).getClose()));
+            }
+            if(stocks.get(i).getClose()-stocks.get(i).getOpen()<=0){
+                e.candleMinus = rounding(((stocks.get(i).getHigh()-stocks.get(i).getClose())/stocks.get(i).getClose()));
             }
             else{
                 e.candleMinus = rounding(((stocks.get(i).getOpen()-stocks.get(i).getLow())/stocks.get(i).getClose()));
