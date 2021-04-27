@@ -13,7 +13,9 @@ public class ExProject {
     private XSSFWorkbook book = new XSSFWorkbook();
     XSSFSheet sheetBD = book.createSheet("Базовые данные");
     XSSFSheet sheetEI = book.createSheet("Элементарные расчеты");
-    XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
+    //XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
+    XSSFSheet sheetCan = book.createSheet("Свечи");
+
     //запись
     FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
     //шрифты
@@ -118,10 +120,6 @@ public class ExProject {
     }
 
     public void creatorEInformation (ArrayList<ElementaryInfomation> eInformation) throws IOException {
-
-
-        createStyle();
-
         XSSFRow rowSt = sheetEI.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -184,7 +182,7 @@ public class ExProject {
             cellD.setCellValue(eInformation.get(i).getCandleMinus());
         }
     }
-
+    /*
     public void creatorGipoteza1(ArrayList<Gipoteza1> gipoteza1s){
         XSSFRow rowSt = sheetG1.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
@@ -236,6 +234,41 @@ public class ExProject {
             cellD.setCellValue(gipoteza1s.get(i).getVsIncFDicF());
         }
 
+    }
+    */
+    public void creatorCandleMaker(ArrayList<CandleMaker> candleMakers){
+        XSSFRow rowSt = sheetCan.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Дата");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Час");
+        cell = rowSt.createCell(2);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Вся свеча");
+        cell = rowSt.createCell(3);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Код свечи");
+
+
+        for (int i=0; i<candleMakers.size(); i++){
+            XSSFRow row = sheetCan.createRow(i+1);
+            XSSFCell cellD1 = row.createCell(0);
+            cellD1.setCellStyle(cellStyle);
+            cellD1.setCellValue(candleMakers.get(i).getDate());
+            XSSFCell cellD = row.createCell(1);
+            cellD = row.createCell(1);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(candleMakers.get(i).getTime());
+            cellD = row.createCell(2);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(candleMakers.get(i).getCandleFull());
+            cellD = row.createCell(3);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(candleMakers.get(i).getCandleView());
+        }
     }
 
     public void  wRite() throws IOException {
