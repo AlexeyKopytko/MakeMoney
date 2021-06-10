@@ -15,6 +15,10 @@ public class ExProject {
     XSSFSheet sheetEI = book.createSheet("Элементарные расчеты");
     //XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
     XSSFSheet sheetCan = book.createSheet("Свечи");
+    XSSFSheet sheetACan = book.createSheet("Анализ Свечей");
+    XSSFSheet sheetdACan = book.createSheet("Д.Анализ Свечей");
+    XSSFSheet sheetHighAnCa = book.createSheet("Верхний диапозон");
+    XSSFSheet sheetLowAnCa = book.createSheet("Нижний диапозон");
 
     //запись
     FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
@@ -251,6 +255,12 @@ public class ExProject {
         cell = rowSt.createCell(3);
         cell.setCellStyle(cellStyle2);
         cell.setCellValue("Код свечи");
+        cell = rowSt.createCell(4);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Макс свечи");
+        cell = rowSt.createCell(5);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Мн свечи");
 
 
         for (int i=0; i<candleMakers.size(); i++){
@@ -268,6 +278,172 @@ public class ExProject {
             cellD = row.createCell(3);
             cellD.setCellStyle(cellStyle3);
             cellD.setCellValue(candleMakers.get(i).getCandleView());
+            cellD = row.createCell(4);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(candleMakers.get(i).getHighPC());
+            cellD = row.createCell(5);
+            cellD.setCellStyle(cellStyle3);
+            cellD.setCellValue(candleMakers.get(i).getLowPC());
+        }
+    }
+
+    public void creatorAnalisCandle(ArrayList<AnaliseCandle> aC, ArrayList<Integer> unicCandel){
+        XSSFRow rowSt = sheetACan.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Уникальная свеча");
+        for (int i=0; i<unicCandel.size(); i++){
+            cell = rowSt.createCell(i+1);
+            cell.setCellStyle(cellStyle2);
+            cell.setCellValue(unicCandel.get(i));
+        }
+        for (int i=0; i<unicCandel.size(); i++){
+            XSSFRow row = sheetACan.createRow(i+1);
+            XSSFCell cellD1 = row.createCell(0);
+            cellD1.setCellStyle(cellStyle3);
+            cellD1.setCellValue(unicCandel.get(i));
+            for (int j=0; j<aC.size();j++){
+                if(unicCandel.get(i)==aC.get(j).getUnicCandle()){
+                    for(int k=0; k<unicCandel.size(); k++){
+                        if(unicCandel.get(k)==aC.get(j).getNextCandle()){
+                            XSSFCell cellD2 = row.createCell(k+1);
+                            cellD2.setCellStyle(cellStyle3);
+                            cellD2.setCellValue(aC.get(j).getCountNextCandle());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void creatordAnalisCandle(ArrayList<AnaliseCandle> aC, ArrayList<Integer> unicCandel){
+        XSSFRow rowSt = sheetdACan.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Предидущая свеча");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Текущая свеча");
+        for (int i=0; i<unicCandel.size(); i++){
+            cell = rowSt.createCell(i+2);
+            cell.setCellStyle(cellStyle2);
+            cell.setCellValue(unicCandel.get(i));
+        }
+        int count=0;
+        for (int i=0; i<unicCandel.size(); i++){
+            for (int m=0; m<unicCandel.size(); m++) {
+                count++;
+                XSSFRow row = sheetdACan.createRow(count);
+                XSSFCell cellD1 = row.createCell(0);
+                cellD1.setCellStyle(cellStyle3);
+                cellD1.setCellValue(unicCandel.get(i));
+                XSSFCell cellD2 = row.createCell(1);
+                cellD2.setCellStyle(cellStyle3);
+                cellD2.setCellValue(unicCandel.get(m));
+                for (int j = 0; j < aC.size(); j++) {
+                    if (unicCandel.get(i) == aC.get(j).getUnicPrivCandle()
+                            && unicCandel.get(m) == aC.get(j).getUnicCandle() ) {
+                        for (int k = 0; k < unicCandel.size(); k++) {
+                            if (unicCandel.get(k) == aC.get(j).getNextCandle()) {
+                                XSSFCell cellD3 = row.createCell(k + 2);
+                                cellD3.setCellStyle(cellStyle3);
+                                cellD3.setCellValue(aC.get(j).getCountNextCandle());
+                            }
+                            else {
+                                XSSFCell cellD3 = row.createCell(k + 2);
+                                cellD3.setCellStyle(cellStyle3);
+                                cellD3.setCellValue(0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void creatorHighAnCa(ArrayList<AnaliseDiaposon> analiseDiaposons){
+        XSSFRow rowSt = sheetHighAnCa.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Предидущая свеча");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Текущая свеча");
+        cell = rowSt.createCell(2);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество случаев");
+        int s = 100;
+        for (int i = 0; i<10; i++) {
+            cell = rowSt.createCell(i+3);
+            cell.setCellStyle(cellStyle2);
+            cell.setCellValue(s);
+            s=s-10;
+        }
+
+        for (int i=0; i<analiseDiaposons.size();i++){
+            if(analiseDiaposons.get(i).getPrParam()!=null) {
+            XSSFRow row = sheetHighAnCa.createRow(i);
+            XSSFCell cellD1 = row.createCell(0);
+            cellD1.setCellStyle(cellStyle3);
+            cellD1.setCellValue(analiseDiaposons.get(i).getFirstParam());
+            XSSFCell cellD2 = row.createCell(1);
+            cellD2.setCellStyle(cellStyle3);
+            cellD2.setCellValue(analiseDiaposons.get(i).getSecondParam());
+                XSSFCell cellD3 = row.createCell(2);
+                cellD3.setCellStyle(cellStyle3);
+                cellD3.setCellValue(analiseDiaposons.get(i).getResultParam().size());
+                for (int j = 0; j < analiseDiaposons.get(i).getPrParam().size(); j++) {
+                    XSSFCell cellD4 = row.createCell(j + 3);
+                    cellD4.setCellStyle(cellStyle3);
+                    cellD4.setCellValue(analiseDiaposons.get(i).getPrParam().get(j));
+                }
+            }
+        }
+
+
+    }
+
+    public void creatorLowAnCa(ArrayList<AnaliseDiaposon> analiseDiaposons){
+        XSSFRow rowSt = sheetLowAnCa.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Предидущая свеча");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Текущая свеча");
+        cell = rowSt.createCell(2);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Количество случаев");
+        int s = 100;
+        for (int i = 0; i<10; i++) {
+            cell = rowSt.createCell(i+3);
+            cell.setCellStyle(cellStyle2);
+            cell.setCellValue(s);
+            s=s-10;
+        }
+
+        for (int i=0; i<analiseDiaposons.size();i++){
+            if(analiseDiaposons.get(i).getPrParam()!=null) {
+                XSSFRow row = sheetLowAnCa.createRow(i);
+                XSSFCell cellD1 = row.createCell(0);
+                cellD1.setCellStyle(cellStyle3);
+                cellD1.setCellValue(analiseDiaposons.get(i).getFirstParam());
+                XSSFCell cellD2 = row.createCell(1);
+                cellD2.setCellStyle(cellStyle3);
+                cellD2.setCellValue(analiseDiaposons.get(i).getSecondParam());
+                XSSFCell cellD3 = row.createCell(2);
+                cellD3.setCellStyle(cellStyle3);
+                cellD3.setCellValue(analiseDiaposons.get(i).getResultParam().size());
+                for (int j = 0; j < analiseDiaposons.get(i).getPrParam().size(); j++) {
+                    XSSFCell cellD4 = row.createCell(j + 3);
+                    cellD4.setCellStyle(cellStyle3);
+                    cellD4.setCellValue(analiseDiaposons.get(i).getPrParam().get(j));
+                }
+            }
         }
     }
 

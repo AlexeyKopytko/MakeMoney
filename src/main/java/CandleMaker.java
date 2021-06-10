@@ -6,6 +6,8 @@ public class CandleMaker {
     private Integer time;
     private Double candleFull;
     private int candleView;
+    private double highPC;
+    private double lowPC;
 
     public Date getDate() {
         return date;
@@ -23,6 +25,14 @@ public class CandleMaker {
         return candleView;
     }
 
+    public double getHighPC() {
+        return highPC;
+    }
+
+    public double getLowPC() {
+        return lowPC;
+    }
+
     public ArrayList<CandleMaker> candleMake(ArrayList<ElementaryInfomation> eI, ArrayList<Stocks> st){
         ArrayList<CandleMaker> result = new ArrayList<>();
         Double body = 0.0;
@@ -35,6 +45,8 @@ public class CandleMaker {
         Double low = 0.0;
         for(int i=0; i<eI.size(); i++){
             CandleMaker candleMaker = new CandleMaker();
+            candleMaker.highPC = (st.get(i+1).getHigh()-st.get(i).getClose())/st.get(i).getClose();
+            candleMaker.lowPC = (st.get(i+1).getLow()-st.get(i).getClose())/st.get(i).getClose();
             candleMaker.candleView = 000;
             candleMaker.date = eI.get(i).getDate();
             candleMaker.time = eI.get(i).getTime();
@@ -157,74 +169,77 @@ public class CandleMaker {
 
             if (body>=0){                                                                   // положительный свеча (1)
                 if(fb>=0.05 && fb<0.1 && centrePl>=1.0 && centrOPPl<=1.0){                     // молот (4)
-                    candleMaker.candleView = 141;                                           // размер звезда(1)
+                    candleMaker.candleView = 141;                                           // размер молот(1)
                 }
                 else if(fb>=0.1 && fb<0.2 && centrePl>=1.0 && centrOPPl<=1.0){
-                    candleMaker.candleView = 142;                                           // размер звезда (2)
+                    candleMaker.candleView = 142;                                           // размер молот (2)
                 }
                 else if(fb>=0.2 && fb<0.3 && centrePl>=1.0 && centrOPPl<=1.0){
-                    candleMaker.candleView = 143;                                           // размер звезда (3)
+                    candleMaker.candleView = 143;                                           // размер молот (3)
                 }
                 else if(fb>=0.3 && fb<0.4 && centrePl>=1.0 && centrOPPl<=1.0){
-                    candleMaker.candleView = 144;                                           // размер звезда (4)
+                    candleMaker.candleView = 144;                                           // размер молот (4)
                 }
                 else if(fb>=0.4 && fb<0.5 && centrePl>=1.0 && centrOPPl<=1.0){
-                    candleMaker.candleView = 145;                                           // размер звезда (5)
+                    candleMaker.candleView = 145;                                           // размер молот (5)
                 }
             }
             else {                                                                          // отрицательный свеча(1)
-                if(fb>=0.05 && fb<0.1 && centreMn>=1.0 && centrOPMN<=1.0){                   // звезда (3)
-                    candleMaker.candleView = 241;                                           // размер звезда(1)
+                if(fb>=0.05 && fb<0.1 && centreMn<=1.0 && centrOPMN>=1.0){                   // молот (4)
+                    candleMaker.candleView = 241;                                           // размер молот(1)
                 }
-                else if(fb>=0.1 && fb<0.2 && centreMn>=1.0 && centrOPMN<=1.0){
-                    candleMaker.candleView = 242;                                           // размер звезда (2)
+                else if(fb>=0.1 && fb<0.2 && centreMn<=1.0 && centrOPMN>=1.0){
+                    candleMaker.candleView = 242;                                           // размер молот (2)
                 }
-                else if(fb>=0.2 && fb<0.3 && centreMn>=1.0 && centrOPMN<=1.0){
-                    candleMaker.candleView = 243;                                           // размер звезда (3)
+                else if(fb>=0.2 && fb<0.3 && centreMn<=1.0 && centrOPMN>=1.0){
+                    candleMaker.candleView = 243;                                           // размер молот (3)
                 }
-                else if(fb>=0.3 && fb<0.4 && centreMn>=1.0 && centrOPMN<=1.0){
-                    candleMaker.candleView = 244;                                           // размер звезда (4)
+                else if(fb>=0.3 && fb<0.4 && centreMn<=1.0 && centrOPMN>=1.0){
+                    candleMaker.candleView = 244;                                           // размер молот (4)
                 }
-                else if(fb>=0.4 && fb<0.5 && centreMn>=1.0 && centrOPMN<=1.0){
-                    candleMaker.candleView = 245;                                           // размер звезда (5)
+                else if(fb>=0.4 && fb<0.5 && centreMn<=1.0 && centrOPMN>=1.0){
+                    candleMaker.candleView = 245;                                           // размер молот (5)
                 }
             }
 
+
             if (body>=0){                                                                   // положительный свеча (1)
                 if(fb>=0.05 && fb<0.1 && centrePl<=1.0 && centrOPPl>=1.0){                     // топор (5)
-                    candleMaker.candleView = 151;                                           // размер звезда(1)
+                    candleMaker.candleView = 151;                                           // размер топор(1)
                 }
                 else if(fb>=0.1 && fb<0.2 && centrePl<=1.0 && centrOPPl>=1.0){
-                    candleMaker.candleView = 152;                                           // размер звезда (2)
+                    candleMaker.candleView = 152;                                           // размер топор (2)
                 }
                 else if(fb>=0.2 && fb<0.3 && centrePl<=1.0 && centrOPPl>=1.0){
-                    candleMaker.candleView = 153;                                           // размер звезда (3)
+                    candleMaker.candleView = 153;                                           // размер топор (3)
                 }
                 else if(fb>=0.3 && fb<0.4 && centrePl<=1.0 && centrOPPl>=1.0){
-                    candleMaker.candleView = 154;                                           // размер звезда (4)
+                    candleMaker.candleView = 154;                                           // размер топор (4)
                 }
                 else if(fb>=0.4 && fb<0.5 && centrePl<=1.0 && centrOPPl>=1.0){
-                    candleMaker.candleView = 155;                                           // размер звезда (5)
+                    candleMaker.candleView = 155;                                           // размер топор (5)
                 }
             }
             else {                                                                          // отрицательный свеча(1)
-                if(fb>=0.05 && fb<0.1 && centreMn<=1.0 && centrOPMN>=1.0){                   // топор (3)
-                    candleMaker.candleView = 251;                                           // размер звезда(1)
+                if(fb>=0.05 && fb<0.1 && centreMn>=1.0 && centrOPMN<=1.0){                   // топор (5)
+                    candleMaker.candleView = 251;                                           // размер топор(1)
                 }
-                else if(fb>=0.1 && fb<0.2 && centreMn<=1.0 && centrOPMN>=1.0){
-                    candleMaker.candleView = 252;                                           // размер звезда (2)
+                else if(fb>=0.1 && fb<0.2 && centreMn>=1.0 && centrOPMN<=1.0){
+                    candleMaker.candleView = 252;                                           // размер топор (2)
                 }
-                else if(fb>=0.2 && fb<0.3 && centreMn<=1.0 && centrOPMN>=1.0){
-                    candleMaker.candleView = 253;                                           // размер звезда (3)
+                else if(fb>=0.2 && fb<0.3 && centreMn>=1.0 && centrOPMN<=1.0){
+                    candleMaker.candleView = 253;                                           // размер топор (3)
                 }
-                else if(fb>=0.3 && fb<0.4 && centreMn<=1.0 && centrOPMN>=1.0){
-                    candleMaker.candleView = 254;                                           // размер звезда (4)
+                else if(fb>=0.3 && fb<0.4 && centreMn>=1.0 && centrOPMN<=1.0){
+                    candleMaker.candleView = 254;                                           // размер топор (4)
                 }
-                else if(fb>=0.4 && fb<0.5 && centreMn<=1.0 && centrOPMN>=1.0){
-                    candleMaker.candleView = 255;                                           // размер звезда (5)
+                else if(fb>=0.4 && fb<0.5 && centreMn>=1.0 && centrOPMN<=1.0){
+                    candleMaker.candleView = 255;                                           // размер топор (5)
                 }
             }
-                result.add(candleMaker);
+
+
+            result.add(candleMaker);
         }
 
         return result;
