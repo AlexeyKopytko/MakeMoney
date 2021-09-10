@@ -1,5 +1,6 @@
+package candlemaker;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AnaliseDiaposon {
     private int SecondParam;

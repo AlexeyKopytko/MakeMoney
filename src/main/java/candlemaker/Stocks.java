@@ -1,3 +1,5 @@
+package candlemaker;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.text.ParseException;

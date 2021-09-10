@@ -1,3 +1,5 @@
+package candlemaker;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -94,7 +96,11 @@ public class AnaliseCandle implements Comparable<AnaliseCandle> {
         return analiseCandles;
     }
 
+    public class StructureCandel{
 
+
+
+    }
 
 
     @Override

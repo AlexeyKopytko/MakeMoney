@@ -1,5 +1,7 @@
+package excel;
+
+import candlemaker.*;
 import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.*;
 
@@ -19,6 +21,7 @@ public class ExProject {
     XSSFSheet sheetdACan = book.createSheet("Д.Анализ Свечей");
     XSSFSheet sheetHighAnCa = book.createSheet("Верхний диапозон");
     XSSFSheet sheetLowAnCa = book.createSheet("Нижний диапозон");
+    XSSFSheet sheetStrCa = book.createSheet("Структура свечей");
 
     //запись
     FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
@@ -351,11 +354,6 @@ public class ExProject {
                                 cellD3.setCellStyle(cellStyle3);
                                 cellD3.setCellValue(aC.get(j).getCountNextCandle());
                             }
-                            else {
-                                XSSFCell cellD3 = row.createCell(k + 2);
-                                cellD3.setCellStyle(cellStyle3);
-                                cellD3.setCellValue(0);
-                            }
                         }
                     }
                 }
@@ -444,6 +442,46 @@ public class ExProject {
                     cellD4.setCellValue(analiseDiaposons.get(i).getPrParam().get(j));
                 }
             }
+        }
+    }
+
+    public void creatorStructureCandle(ArrayList<StructureCandle> aC) {
+        XSSFRow rowSt = sheetStrCa.createRow(0);
+        XSSFCell cell = rowSt.createCell(0);
+        cell = rowSt.createCell(0);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Предидущая свеча");
+        cell = rowSt.createCell(1);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Текущая свеча");
+        cell = rowSt.createCell(2);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Всего случаев");
+        cell = rowSt.createCell(3);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Быки");
+        cell = rowSt.createCell(4);
+        cell.setCellStyle(cellStyle2);
+        cell.setCellValue("Отношение");
+        for(int i=0; i<aC.size();i++){
+            XSSFRow rowSt1 = sheetStrCa.createRow(i+1);
+            XSSFCell cell2 = rowSt1.createCell(0);
+            cell2 = rowSt1.createCell(0);
+            cell2.setCellStyle(cellStyle2);
+            cell2.setCellValue(aC.get(i).getSecondParam());
+            cell2 = rowSt1.createCell(1);
+            cell2.setCellStyle(cellStyle2);
+            cell2.setCellValue(aC.get(i).getFirstParam());
+            cell2 = rowSt1.createCell(2);
+            cell2.setCellStyle(cellStyle2);
+            cell2.setCellValue(aC.get(i).getAllCases());
+            cell2 = rowSt1.createCell(3);
+            cell2.setCellStyle(cellStyle2);
+            cell2.setCellValue(aC.get(i).getUpCases());
+            cell2 = rowSt1.createCell(4);
+            cell2.setCellStyle(cellStyle2);
+            cell2.setCellValue(aC.get(i).getAddiction());
+
         }
     }
 
