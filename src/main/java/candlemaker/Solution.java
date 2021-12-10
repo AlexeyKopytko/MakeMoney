@@ -11,7 +11,7 @@ public class Solution {
         System.out.println("start");
 
         // Получаем данные из .CSV файла.
-        InputStream is = Main.class.getResourceAsStream("/SBER_060101_101231.csv");
+        InputStream is = Main.class.getResourceAsStream("/SBER_070601_200601.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 
         // Создаем список в котором храним данные об изменний цен за один ход цены
@@ -30,8 +30,9 @@ public class Solution {
 
         CandleMaker candleMaker = new CandleMaker();
         ArrayList<CandleMaker> candleMakers = candleMaker.candleMake(eInfomations,stocks);
+        ArrayList<CandleMaker> candleMakers1 = candleMaker.makeFuture(candleMakers,stocks);
 
-        ArrayList<Analise> analises = new Analise().worker(candleMakers);
+        ArrayList<Analise> analises = new Analise().worker1(candleMakers1,1);
 
         for (Analise analise:analises){
             if(analise.getAllCases()>10) {

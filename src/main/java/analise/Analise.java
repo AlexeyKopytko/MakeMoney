@@ -15,13 +15,25 @@ public class Analise {
     private Double firstDiapasonHigh;
     private Double firstDiapasonLow;
     private Double firstDiapasonPercent;
-    private Double secondDiapasonHigh;
-    private Double secondDiapasonLow;
-    private Double secondDiapasonPercent;
-    private Double thirdDiapasonHigh;
-    private Double thirdDiapasonLow;
-    private Double thirdDiapasonPercent;
+    private Double high80P;
+    private Double low80P;
 
+
+    public Double getHigh80P() {
+        return high80P;
+    }
+
+    public void setHigh80P(Double high80P) {
+        this.high80P = high80P;
+    }
+
+    public Double getLow80P() {
+        return low80P;
+    }
+
+    public void setLow80P(Double low80P) {
+        this.low80P = low80P;
+    }
 
     public ArrayList<Double> getMax() {
         return max;
@@ -87,57 +99,17 @@ public class Analise {
         this.firstDiapasonPercent = firstDiapasonPercent;
     }
 
-    public Double getSecondDiapasonHigh() {
-        return secondDiapasonHigh;
-    }
 
-    public void setSecondDiapasonHigh(Double secondDiapasonHigh) {
-        this.secondDiapasonHigh = secondDiapasonHigh;
-    }
-
-    public Double getSecondDiapasonLow() {
-        return secondDiapasonLow;
-    }
-
-    public void setSecondDiapasonLow(Double secondDiapasonLow) {
-        this.secondDiapasonLow = secondDiapasonLow;
-    }
-
-    public Double getSecondDiapasonPercent() {
-        return secondDiapasonPercent;
-    }
-
-    public void setSecondDiapasonPercent(Double secondDiapasonPercent) {
-        this.secondDiapasonPercent = secondDiapasonPercent;
-    }
-
-    public Double getThirdDiapasonHigh() {
-        return thirdDiapasonHigh;
-    }
-
-    public void setThirdDiapasonHigh(Double thirdDiapasonHigh) {
-        this.thirdDiapasonHigh = thirdDiapasonHigh;
-    }
-
-    public Double getThirdDiapasonLow() {
-        return thirdDiapasonLow;
-    }
-
-    public void setThirdDiapasonLow(Double thirdDiapasonLow) {
-        this.thirdDiapasonLow = thirdDiapasonLow;
-    }
-
-    public Double getThirdDiapasonPercent() {
-        return thirdDiapasonPercent;
-    }
-
-    public void setThirdDiapasonPercent(Double thirdDiapasonPercent) {
-        this.thirdDiapasonPercent = thirdDiapasonPercent;
-    }
-
-    public ArrayList<Analise> worker (ArrayList<CandleMaker> data){
+    public ArrayList<Analise> worker1 (ArrayList<CandleMaker> data, int way){
         ArrayList <Analise> result = new ArrayList<>();
-
+        AnaliseFirstSecondPar.worker(result,data,way);
+        System.out.println("n");
+        AnaliseTotalRange.worker(result);
+        System.out.println("m");
+        AnaliseHighLow.worker(result);
+        System.out.println("v");
+        System.out.println("n");
+        /*
         Analise analise1 = new Analise();
         result.add(analise1);
         for(int i=1;i<data.size();i++){
@@ -150,12 +122,22 @@ public class Analise {
                         && result.get(j).getsParam()==analise.getsParam()){
                     int aC = result.get(j).getAllCases()+1;
                     result.get(j).setAllCases(aC);
-                    ArrayList<Double> ma = result.get(j).getMax();
-                    ma.add(data.get(i).getHighPC());
-                    result.get(j).setMax(ma);
-                    ArrayList<Double> mi = result.get(j).getMin();
-                    mi.add(data.get(i).getLowPC());
-                    result.get(j).setMax(mi);
+                    if(i<data.size()-1) {
+                        ArrayList<Double> ma = result.get(j).getMax();
+                        ma.add(data.get(i).getHighPC());
+                        result.get(j).setMax(ma);
+                        ArrayList<Double> mi = result.get(j).getMin();
+                        mi.add(data.get(i).getLowPC());
+                        result.get(j).setMin(mi);
+                    }
+                    else{
+                        ArrayList<Double> ma = result.get(j).getMax();
+                        ma.add(0.0);
+                        result.get(j).setMax(ma);
+                        ArrayList<Double> mi = result.get(j).getMin();
+                        mi.add(0.0);
+                        result.get(j).setMin(mi);
+                    }
                 } else{
                     count++;
                 }
@@ -164,48 +146,53 @@ public class Analise {
                 }
             }
         }
-        ArrayList<AllDiapasons> allDiapasons = AllDiapasons.diapasons();
-
+        */
+        /*
         for (int i=0;i<result.size(); i++){
 
             Analise analise = result.get(i);
             ArrayList<Double> max = analise.getMax();
             ArrayList<Double> min = analise.getMin();
+            ArrayList<AllDiapasons> allDiapasons = new ArrayList<>();
+
+            for(int ma = 0; ma<max.size(); ma++){
+                for(int mi = 0; mi<min.size(); mi++ ){
+                    Double h = max.get(ma);
+                    Double l = min.get(mi);
+                    AllDiapasons allDiapasons1 = new AllDiapasons(h, l);
+                    allDiapasons.add(allDiapasons1);
+                }
+            }
 
             for (int k = 0; k<allDiapasons.size();k++){
-
                 AllDiapasons allDiapasons1 = allDiapasons.get(k);
                 for (int g=0; g<max.size(); g++ ){
-                    if(max.get(g)>allDiapasons1.getHighDiapasons()
-                            && min.get(g)<allDiapasons1.getLowDiapasons()){
+                    Double maX = max.get(g);
+                    Double miN = min.get(g);
+                    Double hiGH = allDiapasons1.getHighDiapasons();
+                    Double loW = allDiapasons1.getLowDiapasons();
+                    boolean s1 = max.get(g)>allDiapasons1.getHighDiapasons();
+                    boolean s2 = min.get(g)<allDiapasons1.getLowDiapasons();
+                    boolean s3 = allDiapasons1.getHighDiapasons()>allDiapasons1.getLowDiapasons();
+
+                    if(s1 && s2 && s3){
                         Double a = allDiapasons1.getAmount()+1.0;
                         allDiapasons1.setAmount(a);
                     }
                 }
             }
-            Collections.sort(allDiapasons);
-            analise.setFirstDiapasonHigh(allDiapasons.get(0).getHighDiapasons());
-            analise.setFirstDiapasonLow(allDiapasons.get(0).getLowDiapasons());
-            analise.setFirstDiapasonPercent(allDiapasons.get(0).getAmount()/analise.getAllCases());
-            analise.setSecondDiapasonHigh(allDiapasons.get(1).getHighDiapasons());
-            analise.setSecondDiapasonLow(allDiapasons.get(1).getLowDiapasons());
-            analise.setSecondDiapasonPercent(allDiapasons.get(1).getAmount()/analise.getAllCases());
-            analise.setThirdDiapasonHigh(allDiapasons.get(2).getHighDiapasons());
-            analise.setThirdDiapasonLow(allDiapasons.get(2).getLowDiapasons());
-            analise.setThirdDiapasonPercent(allDiapasons.get(2).getAmount()/analise.getAllCases());
-
-            result.set(i, analise);
-
-            for(int w=0;w<allDiapasons.size();w++){
-                allDiapasons.get(w).setAmount(0.0);
+            if(allDiapasons.size()>=2) {
+                Collections.sort(allDiapasons);
+            }
+            if(allDiapasons.size()>=1) {
+                analise.setFirstDiapasonHigh(allDiapasons.get(0).getHighDiapasons());
+                analise.setFirstDiapasonLow(allDiapasons.get(0).getLowDiapasons());
+                analise.setFirstDiapasonPercent(allDiapasons.get(0).getAmount() / analise.getAllCases());
             }
 
-
+            result.set(i, analise);
         }
-
-
-
-
+         */
         return result;
     }
 }

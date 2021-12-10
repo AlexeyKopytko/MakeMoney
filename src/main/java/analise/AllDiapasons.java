@@ -5,12 +5,32 @@ import java.util.ArrayList;
 public class AllDiapasons implements Comparable<AllDiapasons> {
     private Double highDiapasons;
     private Double lowDiapasons;
+    private Double sizeDiaposons;
     private Double amount;
 
     public AllDiapasons(Double highDiapasons, Double lowDiapasons) {
-        this.highDiapasons = highDiapasons;
-        this.lowDiapasons = lowDiapasons;
+        if(highDiapasons>=0) {
+            this.highDiapasons = highDiapasons - 0.0001;
+        }
+        else {
+            this.highDiapasons = highDiapasons - 0.0001;
+        }
+        if(lowDiapasons<=0) {
+            this.lowDiapasons = lowDiapasons + 0.0001;
+        }
+        else{
+            this.lowDiapasons = lowDiapasons + 0.0001;
+        }
+        this.sizeDiaposons = this.highDiapasons-this.lowDiapasons;
         this.amount=0.0;
+    }
+
+    public Double getSizeDiaposons() {
+        return sizeDiaposons;
+    }
+
+    public void setSizeDiaposons(Double sizeDiaposons) {
+        this.sizeDiaposons = sizeDiaposons;
     }
 
     public Double getHighDiapasons() {
@@ -37,6 +57,7 @@ public class AllDiapasons implements Comparable<AllDiapasons> {
         this.amount = amount;
     }
 
+
     public static ArrayList<AllDiapasons> diapasons(){
         ArrayList<AllDiapasons> result = new ArrayList<>();
         for (Double i=-5.0; i<=5.0; i = i+0.01){
@@ -49,8 +70,15 @@ public class AllDiapasons implements Comparable<AllDiapasons> {
         return result;
     }
 
+
     @Override
     public int compareTo(AllDiapasons o) {
-        return o.getAmount().compareTo(this.getAmount());
+        Double un1 = this.amount;
+        Double un2 = o.amount;
+        Double fC = un1-un2;
+        if (fC!=0){
+            return un2.compareTo(un1);
+        }
+        return o.sizeDiaposons.compareTo(this.sizeDiaposons);
     }
 }

@@ -1,5 +1,7 @@
 package excel;
 
+import analise.Analise;
+import analise.NeuralNetwork;
 import candlemaker.*;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -13,18 +15,21 @@ import java.util.ArrayList;
 public class ExProject {
     //модель ексель файла
     private XSSFWorkbook book = new XSSFWorkbook();
+    //запись
+    FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
+
+    XSSFSheet sheetNeur = book.createSheet("Нейронный анализ");
     XSSFSheet sheetBD = book.createSheet("Базовые данные");
     XSSFSheet sheetEI = book.createSheet("Элементарные расчеты");
     //XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
     XSSFSheet sheetCan = book.createSheet("Свечи");
+
     XSSFSheet sheetACan = book.createSheet("Анализ Свечей");
     XSSFSheet sheetdACan = book.createSheet("Д.Анализ Свечей");
-    XSSFSheet sheetHighAnCa = book.createSheet("Верхний диапозон");
-    XSSFSheet sheetLowAnCa = book.createSheet("Нижний диапозон");
     XSSFSheet sheetStrCa = book.createSheet("Структура свечей");
+    XSSFSheet sheetDiaposon = book.createSheet("Диапазон по свечам");
 
-    //запись
-    FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
+
     //шрифты
     XSSFFont font1 = book.createFont();
     XSSFFont font2 = book.createFont();
@@ -67,10 +72,9 @@ public class ExProject {
     }
 
     public void creatorBD(ArrayList<Stocks> stocks) throws IOException {
-
-
         createStyle();
-
+        CreateBD.worker(sheetBD,cellStyle,cellStyle2,cellStyle3,stocks);
+/*
         XSSFRow rowSt = sheetBD.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -120,14 +124,12 @@ public class ExProject {
             cellD.setCellStyle(cellStyle3);
             cellD.setCellValue(stocks.get(i).getVolume());
         }
-
-
-
-
+*/
     }
 
     public void creatorEInformation (ArrayList<ElementaryInfomation> eInformation) throws IOException {
-        XSSFRow rowSt = sheetEI.createRow(0);
+        CreatorEInformation.worker(sheetEI,cellStyle,cellStyle2,cellStyle3,eInformation);
+ /*       XSSFRow rowSt = sheetEI.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
         cell.setCellStyle(cellStyle2);
@@ -188,6 +190,7 @@ public class ExProject {
             cellD.setCellStyle(cellStyle3);
             cellD.setCellValue(eInformation.get(i).getCandleMinus());
         }
+        */
     }
     /*
     public void creatorGipoteza1(ArrayList<Gipoteza1> gipoteza1s){
@@ -244,6 +247,8 @@ public class ExProject {
     }
     */
     public void creatorCandleMaker(ArrayList<CandleMaker> candleMakers){
+        CreatorCandelMaker.worker(sheetCan,cellStyle,cellStyle2,cellStyle3,candleMakers);
+        /*
         XSSFRow rowSt = sheetCan.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -288,9 +293,13 @@ public class ExProject {
             cellD.setCellStyle(cellStyle3);
             cellD.setCellValue(candleMakers.get(i).getLowPC());
         }
+
+         */
     }
 
     public void creatorAnalisCandle(ArrayList<AnaliseCandle> aC, ArrayList<Integer> unicCandel){
+        CreatorAnalisCandle.worker(sheetACan,cellStyle,cellStyle2,cellStyle3,aC,unicCandel);
+        /*
         XSSFRow rowSt = sheetACan.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -318,9 +327,13 @@ public class ExProject {
                 }
             }
         }
+
+         */
     }
 
     public void creatordAnalisCandle(ArrayList<AnaliseCandle> aC, ArrayList<Integer> unicCandel){
+        CreatorDAnalisCandle.worker(sheetdACan,cellStyle,cellStyle2,cellStyle3,aC,unicCandel);
+       /*
         XSSFRow rowSt = sheetdACan.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -359,93 +372,13 @@ public class ExProject {
                 }
             }
         }
-    }
 
-    public void creatorHighAnCa(ArrayList<AnaliseDiaposon> analiseDiaposons){
-        XSSFRow rowSt = sheetHighAnCa.createRow(0);
-        XSSFCell cell = rowSt.createCell(0);
-        cell = rowSt.createCell(0);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Предидущая свеча");
-        cell = rowSt.createCell(1);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Текущая свеча");
-        cell = rowSt.createCell(2);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Количество случаев");
-        int s = 100;
-        for (int i = 0; i<10; i++) {
-            cell = rowSt.createCell(i+3);
-            cell.setCellStyle(cellStyle2);
-            cell.setCellValue(s);
-            s=s-10;
-        }
-
-        for (int i=0; i<analiseDiaposons.size();i++){
-            if(analiseDiaposons.get(i).getPrParam()!=null) {
-            XSSFRow row = sheetHighAnCa.createRow(i);
-            XSSFCell cellD1 = row.createCell(0);
-            cellD1.setCellStyle(cellStyle3);
-            cellD1.setCellValue(analiseDiaposons.get(i).getFirstParam());
-            XSSFCell cellD2 = row.createCell(1);
-            cellD2.setCellStyle(cellStyle3);
-            cellD2.setCellValue(analiseDiaposons.get(i).getSecondParam());
-                XSSFCell cellD3 = row.createCell(2);
-                cellD3.setCellStyle(cellStyle3);
-                cellD3.setCellValue(analiseDiaposons.get(i).getResultParam().size());
-                for (int j = 0; j < analiseDiaposons.get(i).getPrParam().size(); j++) {
-                    XSSFCell cellD4 = row.createCell(j + 3);
-                    cellD4.setCellStyle(cellStyle3);
-                    cellD4.setCellValue(analiseDiaposons.get(i).getPrParam().get(j));
-                }
-            }
-        }
-
-
-    }
-
-    public void creatorLowAnCa(ArrayList<AnaliseDiaposon> analiseDiaposons){
-        XSSFRow rowSt = sheetLowAnCa.createRow(0);
-        XSSFCell cell = rowSt.createCell(0);
-        cell = rowSt.createCell(0);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Предидущая свеча");
-        cell = rowSt.createCell(1);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Текущая свеча");
-        cell = rowSt.createCell(2);
-        cell.setCellStyle(cellStyle2);
-        cell.setCellValue("Количество случаев");
-        int s = 100;
-        for (int i = 0; i<10; i++) {
-            cell = rowSt.createCell(i+3);
-            cell.setCellStyle(cellStyle2);
-            cell.setCellValue(s);
-            s=s-10;
-        }
-
-        for (int i=0; i<analiseDiaposons.size();i++){
-            if(analiseDiaposons.get(i).getPrParam()!=null) {
-                XSSFRow row = sheetLowAnCa.createRow(i);
-                XSSFCell cellD1 = row.createCell(0);
-                cellD1.setCellStyle(cellStyle3);
-                cellD1.setCellValue(analiseDiaposons.get(i).getFirstParam());
-                XSSFCell cellD2 = row.createCell(1);
-                cellD2.setCellStyle(cellStyle3);
-                cellD2.setCellValue(analiseDiaposons.get(i).getSecondParam());
-                XSSFCell cellD3 = row.createCell(2);
-                cellD3.setCellStyle(cellStyle3);
-                cellD3.setCellValue(analiseDiaposons.get(i).getResultParam().size());
-                for (int j = 0; j < analiseDiaposons.get(i).getPrParam().size(); j++) {
-                    XSSFCell cellD4 = row.createCell(j + 3);
-                    cellD4.setCellStyle(cellStyle3);
-                    cellD4.setCellValue(analiseDiaposons.get(i).getPrParam().get(j));
-                }
-            }
-        }
+        */
     }
 
     public void creatorStructureCandle(ArrayList<StructureCandle> aC) {
+        CreatorStructureCandle.worker(sheetStrCa,cellStyle,cellStyle2,cellStyle3,aC);
+        /*
         XSSFRow rowSt = sheetStrCa.createRow(0);
         XSSFCell cell = rowSt.createCell(0);
         cell = rowSt.createCell(0);
@@ -481,9 +414,20 @@ public class ExProject {
             cell2 = rowSt1.createCell(4);
             cell2.setCellStyle(cellStyle2);
             cell2.setCellValue(aC.get(i).getAddiction());
-
         }
+         */
     }
+
+    public void creatorDiapason(ArrayList<Analise> analises1,ArrayList<Analise> analises2,ArrayList<Analise> analises3,
+                                ArrayList<Analise> analises4,ArrayList<Analise> analises5){
+        CreatorDiapason.worker(sheetDiaposon,cellStyle,cellStyle2,cellStyle3,
+                                analises1,analises2,analises3,analises4,analises5);
+    }
+
+    public void creatorNeuralNetwork(ArrayList<NeuralNetwork> neuralNetworks) {
+        CreatorNeuralNetwork.worker(sheetNeur, cellStyle, cellStyle2, cellStyle3, neuralNetworks);
+    }
+
 
     public void  wRite() throws IOException {
         book.write(fileOut);

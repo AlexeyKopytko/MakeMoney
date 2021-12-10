@@ -14,8 +14,75 @@ public class Stocks {
     private Double low;
     private Double close;
     private Double volume;
+    private Double ema;
+    private Double plusDM;
+    private Double minusDM;
+    private Double trueRange;
+    private Double plusDI;
+    private Double minusDI;
+    private Double indicatorADX;
 
     public Stocks() {
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Double getPlusDM() {
+        return plusDM;
+    }
+
+    public void setPlusDM(Double plusDM) {
+        this.plusDM = plusDM;
+    }
+
+    public Double getMinusDM() {
+        return minusDM;
+    }
+
+    public void setMinusDM(Double minusDM) {
+        this.minusDM = minusDM;
+    }
+
+    public Double getTrueRange() {
+        return trueRange;
+    }
+
+    public void setTrueRange(Double trueRange) {
+        this.trueRange = trueRange;
+    }
+
+    public Double getPlusDI() {
+        return plusDI;
+    }
+
+    public void setPlusDI(Double plusDI) {
+        this.plusDI = plusDI;
+    }
+
+    public Double getMinusDI() {
+        return minusDI;
+    }
+
+    public void setMinusDI(Double minusDI) {
+        this.minusDI = minusDI;
+    }
+
+    public Double getIndicatorADX() {
+        return indicatorADX;
+    }
+
+    public void setIndicatorADX(Double indicatorADX) {
+        this.indicatorADX = indicatorADX;
+    }
+
+    public Double getEma() {
+        return ema;
+    }
+
+    public void setEma(Double ema) {
+        this.ema = ema;
     }
 
     public Date getDate() {
@@ -55,5 +122,12 @@ public class Stocks {
        this.low = Double.parseDouble(mas[6]);
        this.close = Double.parseDouble(mas[7]);
        this.volume = Double.parseDouble(mas[8]);
+       this.ema = 0.0;
+       this.plusDM = 0.0;
+       this.minusDM = 0.0;
+       this.trueRange = 0.0;
+       this.plusDI = 0.0;
+       this.minusDI = 0.0;
+       this.indicatorADX = 0.0;
     }
 }
