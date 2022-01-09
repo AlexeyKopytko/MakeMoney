@@ -57,8 +57,9 @@ public class NeuralNetwork {
             }
             int cCP1=0;
             for(int k = 0; k<min.size();k++){
+                double prCl = candleMakers.get(i).getClosePC();
 
-                  if(candleMakers.get(i).getClosePC()*100<=min.get(k) && candleMakers.get(i).getClosePC()*100>max.get(k)){
+                  if(prCl*100<=min.get(k) && prCl*100>max.get(k)){
                       cCP1=code.get(k);
                       break;
                   }

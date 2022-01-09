@@ -138,7 +138,7 @@ public class CreatorNeuralNetwork {
                     }
             }
             XSSFCell cellD1;
-            cellD1 = row.createCell(31);
+            cellD1 = row.createCell(32);
             cellD1.setCellStyle(cellStyle3);
             cellD1.setCellValue(neuralNetworks.get(i).getCodeClosePrice1());
         }

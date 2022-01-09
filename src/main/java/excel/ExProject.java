@@ -13,31 +13,54 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExProject {
+    String fileName;
     //модель ексель файла
-    private XSSFWorkbook book = new XSSFWorkbook();
+    private XSSFWorkbook book;
     //запись
-    FileOutputStream fileOut = new FileOutputStream("workbook.xlsx");
+    FileOutputStream fileOut;
 
-    XSSFSheet sheetNeur = book.createSheet("Нейронный анализ");
-    XSSFSheet sheetBD = book.createSheet("Базовые данные");
-    XSSFSheet sheetEI = book.createSheet("Элементарные расчеты");
-    //XSSFSheet sheetG1 = book.createSheet("Гипотеза1");
-    XSSFSheet sheetCan = book.createSheet("Свечи");
+    XSSFSheet sheetNeur;
+    XSSFSheet sheetBD;
+    XSSFSheet sheetEI;
+    //XSSFSheet sheetG1;
+    XSSFSheet sheetCan;
 
-    XSSFSheet sheetACan = book.createSheet("Анализ Свечей");
-    XSSFSheet sheetdACan = book.createSheet("Д.Анализ Свечей");
-    XSSFSheet sheetStrCa = book.createSheet("Структура свечей");
-    XSSFSheet sheetDiaposon = book.createSheet("Диапазон по свечам");
+    XSSFSheet sheetACan;
+    XSSFSheet sheetdACan;
+    XSSFSheet sheetStrCa;
+    XSSFSheet sheetDiaposon;
 
 
     //шрифты
-    XSSFFont font1 = book.createFont();
-    XSSFFont font2 = book.createFont();
+    XSSFFont font1;
+    XSSFFont font2;
     // стили
-    XSSFCellStyle cellStyle = book.createCellStyle();
-    XSSFCellStyle cellStyle2 = book.createCellStyle();
-    XSSFCellStyle cellStyle3 = book.createCellStyle();
-    public ExProject() throws FileNotFoundException {
+    XSSFCellStyle cellStyle;
+    XSSFCellStyle cellStyle2;
+    XSSFCellStyle cellStyle3;
+    public ExProject(String fileName) throws FileNotFoundException {
+        this.fileName = fileName;
+        this.fileOut = new FileOutputStream(fileName);
+        this.book =new XSSFWorkbook();
+        this.sheetNeur = book.createSheet("Нейронный анализ");
+        this.sheetBD = book.createSheet("Базовые данные");
+        this.sheetEI = book.createSheet("Элементарные расчеты");
+        //this.sheetG1 = book.createSheet("Гипотеза1");
+        this.sheetCan = book.createSheet("Свечи");
+
+        this.sheetACan = book.createSheet("Анализ Свечей");
+        this.sheetdACan = book.createSheet("Д.Анализ Свечей");
+        this.sheetStrCa = book.createSheet("Структура свечей");
+        this.sheetDiaposon = book.createSheet("Диапазон по свечам");
+
+
+        //шрифты
+        this.font1 = book.createFont();
+        this.font2 = book.createFont();
+        // стили
+        this.cellStyle = book.createCellStyle();
+        this.cellStyle2 = book.createCellStyle();
+        this.cellStyle3 = book.createCellStyle();
     }
 
     private void createStyle(){

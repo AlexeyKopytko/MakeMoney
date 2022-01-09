@@ -9,12 +9,12 @@ public class CodeADX {
     public static ArrayList<CandleMaker> worker(ArrayList<CandleMaker> candleMakers, ArrayList<Stocks> stocks){
         ArrayList<Double> diaposon = new ArrayList<>();
         diaposon.add(10.0);
-        for(int i=0; i<9; i++){
+        for(int i=0; i<8; i++){
             diaposon.add(diaposon.get(i)+5.0);
         }
         ArrayList<Integer> cod = new ArrayList<>();
         cod.add(1);
-        for (int i = 0;i<10;i++){
+        for (int i = 0;i<9;i++){
             cod.add(cod.get(i)+1);
         }
         for (int i = 0; i<candleMakers.size(); i++){
@@ -45,15 +45,15 @@ public class CodeADX {
                     for (int k=1;k<diaposon.size();k++){
                         if(stocks.get(j).getPlusDI()>=diaposon.get(k-1) &&
                             stocks.get(j).getPlusDI()<diaposon.get(k)){
-                            x1=cod.get(k).toString();
+                            x1=cod.get(k-1).toString();
                         }
                         if(stocks.get(j).getMinusDI()>=diaposon.get(k-1) &&
                                 stocks.get(j).getMinusDI()<diaposon.get(k)){
-                            x2=cod.get(k).toString();
+                            x2=cod.get(k-1).toString();
                         }
                         if(stocks.get(j).getIndicatorADX()>=diaposon.get(k-1) &&
                                 stocks.get(j).getIndicatorADX()<diaposon.get(k)){
-                            x3=cod.get(k).toString();
+                            x3=cod.get(k-1).toString();
                         }
                     }
                     String result = x1+x2+x3;

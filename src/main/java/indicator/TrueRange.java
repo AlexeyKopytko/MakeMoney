@@ -15,7 +15,11 @@ public class TrueRange {
             Double lc = Math.abs(stocks.get(i).getLow()-stocks.get(i-1).getClose());
             trueRange = Math.max(lh,hc);
             trueRange = Math.max(trueRange,lc);
+            if (trueRange==0){
+                trueRange=0.01;
+            }
             stocks.get(i).setTrueRange(trueRange);
+
         }
         return stocks;
     }
