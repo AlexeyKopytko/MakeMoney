@@ -356,4 +356,62 @@ public class CandleMaker {
         }
         return result;
     }
+    public ArrayList<CandleMaker> makeFutureCode(ArrayList<CandleMaker> cM) {
+        ArrayList<CandleMaker> result = new ArrayList<>();
+        for (int i=0; i<cM.size(); i++){
+            CandleMaker cm = cM.get(i);
+            cm.closePC = cod(cm.closePC);
+            cm.closePC2 = cod(cm.closePC2);
+            cm.closePC3 = cod(cm.closePC3);
+            cm.closePC4 = cod(cm.closePC4);
+            cm.closePC5 = cod(cm.closePC5);
+            cm.highPC = cod(cm.highPC);
+            cm.highPC2 = cod(cm.highPC2);
+            cm.highPC3 = cod(cm.highPC3);
+            cm.highPC4 = cod(cm.highPC4);
+            cm.highPC5 = cod(cm.highPC5);
+            cm.lowPC = cod(cm.lowPC);
+            cm.lowPC2 = cod(cm.lowPC2);
+            cm.lowPC3 = cod(cm.lowPC3);
+            cm.lowPC4 = cod(cm.lowPC4);
+            cm.lowPC5 = cod(cm.lowPC5);
+            result.add(cm);
+        }
+        return result;
+    }
+
+
+    private Double cod (double price){
+        ArrayList<Double> max = new ArrayList<>();
+        ArrayList<Double> min = new ArrayList<>();
+        ArrayList<Double> code = new ArrayList<>();
+        max.add(-99999999.0);
+        min.add(-4.0);
+        double x = -4.0;
+        double y =0.5;
+        for(int i = 1; i<20; i++){
+            code.add((double) i);
+            max.add(x);
+            if(x<4.0) {
+                min.add(x + y);
+            }
+            x= x+y;
+            if(x==-1.0){
+                y=0.4;
+            }
+            if(x==1.0){
+                y=0.5;
+            }
+        }
+        min.add(9999999.0);
+        double result=0;
+        for(int k = 0; k<min.size();k++){
+            double prCl = price;
+            if(prCl*100<=min.get(k) && prCl*100>max.get(k)){
+                result = code.get(k);
+                break;
+            }
+        }
+        return result;
+    }
 }

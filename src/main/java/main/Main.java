@@ -57,41 +57,44 @@ public class Main {
         StructureCandle structureCandle = new StructureCandle();
         ArrayList<StructureCandle> structureCandles = structureCandle.structureCandels(dAnaliseCandles);
 
-        Analise analise1 = new Analise();
-        Analise analise2 = new Analise();
+        //Analise analise1 = new Analise();
+        //Analise analise2 = new Analise();
         ArrayList<CandleMaker> candleMakers1 = candleMaker.makeFuture(candleMakers,stocks);
 
-        ArrayList<Analise> analises1 = analise1.worker1(candleMakers1,1);
-        ArrayList<Analise> analises2 = analise2.worker1(candleMakers1,2);
-        ArrayList<Analise> analises3 = new Analise().worker1(candleMakers1,3);
-        ArrayList<Analise> analises4 = new Analise().worker1(candleMakers1,4);
-        ArrayList<Analise> analises5 = new Analise().worker1(candleMakers1,5);
+        //ArrayList<Analise> analises1 = analise1.worker1(candleMakers1,1);
+        //ArrayList<Analise> analises2 = analise2.worker1(candleMakers1,2);
+        //ArrayList<Analise> analises3 = new Analise().worker1(candleMakers1,3);
+        //ArrayList<Analise> analises4 = new Analise().worker1(candleMakers1,4);
+        //ArrayList<Analise> analises5 = new Analise().worker1(candleMakers1,5);
         candleMakers1 = CodeADX.worker(candleMakers1,stocks);
-        ArrayList<NeuralNetwork> neuralNetworks = NeuralNetwork.neuralNetworks(candleMakers);
-
+        //ArrayList<NeuralNetwork> neuralNetworks = NeuralNetwork.neuralNetworks(candleMakers);
+        candleMakers1 = candleMaker.makeFutureCode(candleMakers1);
 
         System.out.println("write");
 
 
 
         ExProject exProject = new ExProject("workbook1.xlsx");
+        System.out.println(1);
         exProject.creatorBD(stocks);
+        System.out.println(2);
         exProject.creatorEInformation(eInfomations);
+        System.out.println(3);
         exProject.creatorCandleMaker(candleMakers);
-        exProject.creatorAnalisCandle(analiseCandles,unicCandels);
-        exProject.creatordAnalisCandle(dAnaliseCandles,unicCandels);
+        //exProject.creatorAnalisCandle(analiseCandles,unicCandels);
+        //exProject.creatordAnalisCandle(dAnaliseCandles,unicCandels);
         //exProject.creatorHighAnCa(highAnaliseDiaposons);
         //exProject.creatorLowAnCa(lowAnaliseDiaposons);
-        exProject.creatorStructureCandle(structureCandles);
-        exProject.creatorDiapason(analises1,analises2,analises3,analises4,analises5);
-        exProject.creatorNeuralNetwork(neuralNetworks);
-        ExProject exProject1 = new ExProject("education.xlsx");
-        exProject1.creatorBD(stocks);
-        exProject1.creatorNeuralNetwork(neuralNetworks);
+        //exProject.creatorStructureCandle(structureCandles);
+        //exProject.creatorDiapason(analises1,analises2,analises3,analises4,analises5);
+        //exProject.creatorNeuralNetwork(neuralNetworks);
+        //ExProject exProject1 = new ExProject("education.xlsx");
+        //exProject1.creatorBD(stocks);
+        // exProject1.creatorNeuralNetwork(neuralNetworks);
 
-
+        System.out.println(4);
         exProject.wRite();
-        exProject1.wRite();
+        //exProject1.wRite();
 
         System.out.println("finish");
 
