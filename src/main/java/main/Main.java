@@ -17,7 +17,7 @@ public class Main {
         System.out.println("start");
 
         // Получаем данные из .CSV файла.
-        InputStream is = Main.class.getResourceAsStream("/SBER_1_hour.csv");
+        InputStream is = Main.class.getResourceAsStream("/SBER_210101_211231.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 
         // Создаем список в котором храним данные об изменний цен за один ход цены
@@ -35,19 +35,22 @@ public class Main {
 
 
 
-
+        //Дополняем сырые данные информацией об АДХ
         stocks = ADX.worker(stocks,14);
 
-
+        //Расчитываем цену закрытия, цену открытия и т.д.
         ElementaryInfomation elementaryInfomation = new ElementaryInfomation();
         ArrayList<ElementaryInfomation> eInfomations = elementaryInfomation.counting(stocks);
 
+        //Определяем вид свечи.
         CandleMaker candleMaker = new CandleMaker();
         ArrayList<CandleMaker> candleMakers = candleMaker.candleMake(eInfomations,stocks);
 
+        //Проводим анализ как два вида свечей влияют на прогноз.
         AnaliseCandle analiseCandle = new AnaliseCandle();
         ArrayList<AnaliseCandle> analiseCandles = analiseCandle.analiseCandles(candleMakers);
 
+        //Глубокий анализ влияния на будущее двух свечей
         ArrayList<Integer> unicCandels = analiseCandle.unicCandel(analiseCandles);
         ArrayList<AnaliseCandle> dAnaliseCandles = analiseCandle.dAnaliseCandles(candleMakers);
 
@@ -67,7 +70,7 @@ public class Main {
         //ArrayList<Analise> analises4 = new Analise().worker1(candleMakers1,4);
         //ArrayList<Analise> analises5 = new Analise().worker1(candleMakers1,5);
         candleMakers1 = CodeADX.worker(candleMakers1,stocks);
-        //ArrayList<NeuralNetwork> neuralNetworks = NeuralNetwork.neuralNetworks(candleMakers);
+        ArrayList<NeuralNetwork> neuralNetworks = NeuralNetwork.neuralSimpleNetworks(candleMakers);
         candleMakers1 = candleMaker.makeFutureCode(candleMakers1);
 
         System.out.println("write");
@@ -90,7 +93,7 @@ public class Main {
         //exProject.creatorNeuralNetwork(neuralNetworks);
         //ExProject exProject1 = new ExProject("education.xlsx");
         //exProject1.creatorBD(stocks);
-        // exProject1.creatorNeuralNetwork(neuralNetworks);
+        exProject.creatorNeuralNetwork(neuralNetworks);
 
         System.out.println(4);
         exProject.wRite();

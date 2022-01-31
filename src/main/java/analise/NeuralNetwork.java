@@ -72,7 +72,29 @@ public class NeuralNetwork {
         return result;
     }
 
+    public static ArrayList<NeuralNetwork> neuralSimpleNetworks(ArrayList<CandleMaker> candleMakers){
+        ArrayList<NeuralNetwork> result = new ArrayList<>();
 
+
+        for (int i=15;i<candleMakers.size()-1;i++){
+            NeuralNetwork neuralNetwork =new NeuralNetwork();
+            for (int j=i;j>=i-15;j--){
+                int q = candleMakers.get(j).getCandleView();
+                neuralNetwork.candle.add(q);
+                q = Integer.parseInt(candleMakers.get(j).getCodeADX());
+                neuralNetwork.adx.add(q);
+                if(candleMakers.get(i).getClosePC()>=0){
+                    neuralNetwork.codeClosePrice1=1;
+                }
+                else {
+                    neuralNetwork.codeClosePrice1=2;
+                }
+            }
+
+            result.add(neuralNetwork);
+        }
+        return result;
+    }
 
 
 }
