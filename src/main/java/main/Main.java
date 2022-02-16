@@ -17,7 +17,7 @@ public class Main {
         System.out.println("start");
 
         // Получаем данные из .CSV файла.
-        InputStream is = Main.class.getResourceAsStream("/SBER_210101_211231.csv");
+        InputStream is = Main.class.getResourceAsStream("/SBER_1_hour.csv");
         BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 
         // Создаем список в котором храним данные об изменний цен за один ход цены
